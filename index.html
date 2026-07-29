@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Criminal Operator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0e17;color:#e7edf9;font-family:'Segoe UI',system-ui,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:16px;direction:rtl;text-align:center}
+.c{max-width:620px;width:100%;background:#111827;padding:32px 22px;border-radius:24px;border:1px solid #1e293b;box-shadow:0 20px 40px -12px rgba(0,0,0,.8)}
+h1{font-size:20px;color:#f1f5f9;margin-bottom:8px}
+h1 small{font-size:12px;font-weight:400;color:#94a3b8;background:#1e293b;padding:3px 12px;border-radius:40px}
+.b{display:inline-block;margin-top:12px;padding:14px 28px;background:#d90429;color:#fff;border-radius:40px;text-decoration:none;font-weight:600;border:none;cursor:pointer;font-size:16px;transition:all .3s ease;width:100%}
+.b:hover{background:#ef233c;transform:translateY(-2px);box-shadow:0 5px 15px rgba(239,35,60,0.4)}
+.bg{background:#059669}.bg:hover{background:#047857}
+.bo{background:#d97706}.bo:hover{background:#b45309}
+.i{margin-top:14px;padding:12px 16px;background:#1e293b;border-radius:10px;font-size:11px;color:#94a3b8;text-align:right;line-height:1.7}
+.i strong{color:#e2e8f0}
+.badge{display:inline-block;background:#d90429;padding:4px 16px;border-radius:40px;font-size:12px;color:#fff;margin:10px 0}
+.sub{margin-top:10px;padding:10px 14px;background:#0f172a;border-radius:8px;font-size:12px;color:#ff6b6b;text-align:left;direction:ltr;border:1px solid #3a0f0f;word-break:break-word;font-weight:bold}
+.prev{margin-top:10px;padding:12px 16px;background:#0f172a;border-radius:10px;font-size:11px;color:#cbd5e1;text-align:left;direction:ltr;max-height:250px;overflow-y:auto;line-height:1.6;white-space:pre-wrap;word-break:break-word;border:1px solid #1e293b}
+.st{margin-top:8px;padding:8px;border-radius:8px;font-size:12px;display:none}
+.st.ok{display:block;background:#064e3b;color:#34d399}
+.st.er{display:block;background:#7f1d1d;color:#fca5a5}
+.ct{font-size:10px;color:#64748b;margin-top:6px}
+.w{margin-top:12px;padding:12px 16px;background:#1e293b;border-radius:10px;font-size:12px;color:#fcd34d;border-right:3px solid #f59e0b;text-align:right;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="c">
+<h1>🚨 گزارش جنایتکار سایبری <small>@Danesh_0rg / @Danesh_gov</small></h1>
+<div class="badge" id="db">🔍 ...</div>
+<div class="i"><strong>📌 موضوع اضطراری:</strong><div class="sub" id="st">...</div></div>
+<div class="i"><strong>📝 متن گزارش (حقوقی و کامل):</strong><div class="prev" id="pv">...</div><div class="ct" id="ct"></div></div>
+<button class="b" id="g1">✉️ باز کردن Gmail (اپلیکیشن) - ارسال فوری</button>
+<button class="b bg" id="g2" style="margin-top:8px">📧 ایمیل پیش‌فرض دستگاه</button>
+<button class="b bo" id="g3" style="margin-top:8px">🔄 گزارش بعدی (متن و لینک جدید)</button>
+<div class="st" id="sm"></div>
+<div class="w">💡 هر بار <strong>موضوع + متن بلند + لینک‌های تصادفی</strong> تغییر می‌کند | Gmail <strong>اپلیکیشن</strong> | فقط <strong>Send</strong> بزنید | تمرکز بر بن کردن شماره تلفن و دستکاری شواهد</div>
+</div>
+<script>
+(function(){
+/* ═══════════════════════════════════════════════════════════
+   اطلاعات ثابت
+   ═══════════════════════════════════════════════════════════ */
+var EMAILS=["abuse@telegram.org","reports@telegram.org","stopCA@telegram.org","dmca@telegram.org","security@telegram.org"];
+var TO=EMAILS.join(",");
+var CHANNEL_LINK = "https://t.me/Danesh_0rg";
+
+/* ═══════════════════════════════════════════════════════════
+   لینک‌های شواهد (قدیمی و جدید)
+   ═══════════════════════════════════════════════════════════ */
+var ALL_EV=[
+"https://t.me/Danesh_0rg/846",
+"https://t.me/Danesh_0rg/838",
+"https://t.me/Danesh_0rg/759?single",
+"https://t.me/Danesh_0rg/632",
+"https://t.me/Danesh_0rg/584",
+"https://t.me/Danesh_0rg/518",
+"https://t.me/Danesh_0rg/514",
+"https://t.me/Danesh_0rg/457",
+"https://t.me/Danesh_0rg/455?single",
+"https://t.me/Danesh_0rg/447",
+"https://t.me/Danesh_0rg/400?single",
+"https://t.me/Danesh_0rg/398",
+"https://t.me/Danesh_0rg/396",
+"https://t.me/Danesh_0rg/392",
+"https://t.me/Danesh_0rg/344",
+"https://t.me/Danesh_0rg/234?single",
+"https://t.me/Danesh_gov/55",
+"https://t.me/Danesh_gov/53",
+"https://t.me/Danesh_gov/52",
+"https://t.me/Danesh_gov/51",
+"https://t.me/Danesh_gov/50",
+"https://t.me/Danesh_gov/49",
+"https://t.me/Danesh_gov/48",
+"https://t.me/Danesh_gov/47",
+"https://t.me/Danesh_gov/45",
+"https://t.me/Danesh_gov/58"
+];
+
+function pickLinks(n){
+    var a=ALL_EV.slice();
+    for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+    return a.slice(0,n);
+}
+function evBlock(n){
+    var links=pickLinks(n||6);
+    var s="";
+    for(var i=0;i<links.length;i++){s+=(i+1)+". "+links[i]+"\n";}
+    return s.trim();
+}
+
+function enc(s){return encodeURIComponent(s)}
+
+/* ═══════════════════════════════════════════════════════════
+   ساختار mailto و intent (بدون encode روی ایمیل‌ها)
+   ═══════════════════════════════════════════════════════════ */
+function buildMailto(subject,body){
+    return 'mailto:'+TO+'?subject='+enc(subject)+'&body='+enc(body);
+}
+function buildIntent(subject,body){
+    var data=TO+'?subject='+enc(subject)+'&body='+enc(body);
+    var fallback=enc('mailto:'+data);
+    return 'intent:'+data+'#Intent;scheme=mailto;package=com.google.android.gm;action=android.intent.action.SENDTO;S.browser_fallback_url='+fallback+';end';
+}
+
+/* ═══════════════════════════════════════════════════════════
+   تولید لینک کانال با شکل و جایگاه رندوم
+   ═══════════════════════════════════════════════════════════ */
+function getRandomChannelLink(baseSubject) {
+    var formats = [
+        "@Danesh_0rg",
+        "[Link] https://t.me/Danesh_0rg",
+        "(Channel: t.me/Danesh_0rg)"
+    ];
+    var link = formats[Math.floor(Math.random() * formats.length)];
+    var position = Math.floor(Math.random() * 3); // 0: Start, 1: Middle, 2: End
+    
+    if (position === 0) {
+        return link + " " + baseSubject;
+    } else if (position === 1) {
+        var words = baseSubject.split(" ");
+        var mid = Math.floor(words.length / 2);
+        words.splice(mid, 0, link);
+        return words.join(" ");
+    } else {
+        return baseSubject + " " + link;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ۵۵ گزارش تخصصی و بلند (با جایگذاری لینک‌های رندوم {EV})
+   ═══════════════════════════════════════════════════════════ */
+var BASE_SUBJECTS = [
+"URGENT: CRIMINAL OPERATOR - CSAM, DOXXING & EVIDENCE TAMPERING",
+"CRITICAL: CSAM DISTRIBUTION & DATA LEAK - OPERATOR EVADING BAN",
+"SECURITY ALERT: ORGANIZED CRIME NETWORK - MULTIPLE CHANNELS",
+"TAKE DOWN REQUEST: CSAM & DOXXING RING - EVIDENCE TAMPERING DETECTED",
+"FORMAL COMPLAINT: MULTIPLE FELONIES - OPERATOR ID 8416168172",
+"PLEASE HELP: CHILDREN AT RISK - OPERATOR DELETING EVIDENCE",
+"ToS VIOLATION NOTICE: CSAM & FRAUD - MULTIPLE CHANNELS",
+"EVIDENCE SUBMITTED: DOCUMENTED CASES OF CSAM & DOXXING",
+"PRIORITY: ORGANIZED CRIME - OPERATOR CYCLING CONTENT TO EVADE BAN",
+"IMMEDIATE REMOVAL NEEDED: PUBLISHING BANK CARDS & CSAM",
+"SAFETY CONCERN: THREATENING USERS & SHARING CSAM",
+"REPORT: SYSTEMATIC CSAM & DOXXING OPERATION",
+"URGENT: PERSONAL INFORMATION & CSAM SHARED",
+"ABUSE REPORT: CSAM, FRAUD, & EVIDENCE TAMPERING",
+"ACTION REQUIRED: VIOLATING GLOBAL LAWS",
+"WARNING: POSES DIRECT THREAT TO CHILDREN",
+"COMPLAINT: UNAUTHORIZED DATA SHARING & CSAM",
+"ESCALATION: REPEATED VIOLATIONS & TAMPERING",
+"REPORT: SHARING BANK CARDS & CSAM",
+"NOTICE: ENGAGED IN ILLEGAL ACTIVITIES",
+"HELP NEEDED: TARGETING VICTIMS",
+"CHANNELS MUST BE REMOVED FOR SAFETY",
+"SERIOUS VIOLATION: PUBLISHING SENSITIVE DATA",
+"ALERT: ACTIVE THREAT TO MULTIPLE INDIVIDUALS",
+"REPORT: PRIVACY BREACH & CSAM",
+"CSAM CHANNELS REQUIRE IMMEDIATE TAKEDOWN",
+"CONCERN: EXPOSING PRIVATE LIVES & CSAM",
+"VIOLATION REPORT: DATA EXPOSURE & CSAM",
+"PUBLISHING PERSONAL INFO – URGENT REMOVAL",
+"SAFETY REPORT: THREATENING USERS",
+"COORDINATED CSAM & DOXXING CAMPAIGN",
+"REPORT: ILLEGAL PUBLICATION OF DATA & CSAM",
+"LIVES AT RISK – IMMEDIATE ACTION NEEDED",
+"COMPLAINT: SYSTEMATIC PRIVACY VIOLATIONS",
+"CSAM & DATA LEAKS – REPORT",
+"URGENT: EXPOSING VICTIMS TO HARM",
+"REQUEST FOR PERMANENT CHANNEL REMOVAL",
+"REPORT: THREATENING BEHAVIOR & CSAM",
+"DANGEROUS CHANNELS SHARING CSAM",
+"FORMAL REPORT: CSAM & CYBER THREATS",
+"URGENT PRIVACY & SAFETY CONCERN",
+"REPORT: UNAUTHORIZED DATA SHARING & CSAM",
+"FACILITATING HARASSMENT & CSAM",
+"ALERT: CSAM & HACKING THREATS",
+"INVESTIGATION & REMOVAL REQUEST",
+"REPORT: PUBLISHING PHONE NUMBERS & CSAM",
+"IMMEDIATE TAKEDOWN REQUIRED – SAFETY RISK",
+"COMPLAINT: PRIVACY INVASION & CSAM",
+"SYSTEMATIC ABUSE OF TELEGRAM PLATFORM",
+"URGENT: PEOPLE AT RISK OF CSAM & DOXXING",
+"FINAL REPORT – REQUESTING PERMANENT ACTION",
+"REPORT: EXPOSING PRIVATE LIVES & CSAM",
+"CRITICAL SAFETY VIOLATION – IMMEDIATE RESPONSE",
+"FINAL NOTICE: CSAM, DOXXING, & FRAUD",
+"URGENT: CSAM - OPERATOR DELETES EVIDENCE - DEVICE BAN NEEDED"
+];
+
+var R=[
+{s:"URGENT: CRIMINAL OPERATOR - CSAM, DOXXING & EVIDENCE TAMPERING",
+b:"Telegram Abuse Team,\n\nThis operator is actively monitoring our reports. He deletes evidence every time he is reported. Do not rely on visible content. Check your server logs and cache.\n\nMAIN OPERATOR:\nPhone: +16679666258\nNumeric ID: 8416168172\n\nCHANNELS TO BAN:\n1. @Danesh_0rg (ID: -1003128289859)\n2. @Danesh_gov\n3. New channel ID: -1004323124638\n\nCRIMES:\n· CSAM (Child Sexual Abuse Material)\n· Doxxing (phone numbers, bank cards, IDs)\n· Blackmail and extortion\n· Deleting evidence to evade bans\n\nORIGINAL LINKS (check cache):\n{EV}\n\nREQUEST:\n1. PERMANENTLY BAN phone number: +16679666258 (Numeric ID: 8416168172)\n2. PERMANENTLY BAN all 3 channels\n3. Device-level ban on operator\n4. Ban bots: @Dan3sh_org_Bot and @ctdfjjhyyhjijnjsksh_bot\n\nBanning channels alone is useless. He will keep creating new ones. You MUST ban his phone number permanently. This is the root of the problem.\n\nHe is deleting evidence to fool your system. Check your cache and logs. The original content is still there.\n\nThank you."},
+{s:"CRITICAL: CSAM DISTRIBUTION & DATA LEAK - OPERATOR EVADING BAN",
+b:"URGENT REPORT – IMMEDIATE ACTION REQUIRED\n\nTelegram Support,\n\nThe operator (Phone: +16679666258, ID: 8416168172) is running an organized crime network involving CSAM and financial fraud across multiple channels including @Danesh_0rg and @Danesh_gov.\n\nTACTICS OF EVASION:\n- Deleting posts after reporting to hide evidence from moderators.\n- Moving illegal content to new channels (ID: -1004323124638).\n- Using bots (@Dan3sh_org_Bot) to automate the distribution of stolen data.\n\nEVIDENCE LINKS (Please Check Cache for Deleted Posts):\n{EV}\n\nCONTENT TYPE IDENTIFIED:\n- Child Sexual Abuse Material (CSAM)\n- Doxxing (Phone numbers, Addresses, National IDs)\n- Financial Fraud (Bank cards with CVV)\n\nWe request that you check your server-side edit history and cache. The content was there before deletion. Permanent device ban and phone ban (+16679666258) are required to stop this criminal operator.\n\nThank you for your urgent attention to this matter."},
+{s:"SECURITY ALERT: ORGANIZED CRIME NETWORK - MULTIPLE CHANNELS",
+b:"To Telegram Security Team,\n\nI am reporting a sophisticated criminal network operating on Telegram under the handles @Danesh_0rg (ID: -1003128289859), @Danesh_gov, and a new channel (ID: -1004323124638).\n\nMAIN OPERATOR DETAILS:\nPhone: +16679666258\nNumeric ID: 8416168172\n\nThe operator actively deletes evidence upon detection but the content remains in Telegram's cache and edit history. This is a deliberate attempt to obstruct justice and evade moderation.\n\nEvidence of Illegal Activity:\n{EV}\n\nViolations:\n1. Distribution of CSAM (Child Sexual Abuse Material)\n2. Mass Doxxing of individuals (Publishing private IDs and addresses)\n3. Sale of stolen bank credentials (Fullz with CVV)\n4. Evasion of moderation via channel hopping and deletion\n\nAssociated Bots to Ban:\n- @Dan3sh_org_Bot\n- @ctdfjjhyyhjijnjsksh_bot\n\nImmediate action is required to protect users and comply with international law regarding child protection and financial fraud. Please ban the phone number +16679666258 permanently.\n\nThank you."},
+{s:"TAKE DOWN REQUEST: CSAM & DOXXING RING - EVIDENCE TAMPERING DETECTED",
+b:"Telegram Abuse Team,\n\nChannels @Danesh_0rg, @Danesh_gov, and the new channel (ID: -1004323124638) must be taken down immediately.\n\nReason: Systematic distribution of CSAM and private data, combined with active evidence tampering by operator ID 8416168172 (Phone: +16679666258).\n\nThe operator deletes posts when reported but moves them to private or new channels. Your server logs will show the original uploads and the subsequent deletions. This pattern confirms malicious intent.\n\nProof Links (Check Cache):\n{EV}\n\nThis is not just a violation; it is a serious crime. Please involve law enforcement if necessary and apply a device-level ban to prevent the operator from creating new accounts. Banning the phone number +16679666258 is critical.\n\nThank you."},
+{s:"FORMAL COMPLAINT: MULTIPLE FELONIES - OPERATOR ID 8416168172",
+b:"REPORT FORM – TELEGRAM ABUSE\n\nDate: "+new Date().toISOString().split('T')[0]+"\nSeverity: CRITICAL (CSAM/Fraud)\nOperator Phone: +16679666258\nOperator ID: 8416168172\nChannels: @Danesh_0rg (-1003128289859), @Danesh_gov, -1004323124638\n\nDESCRIPTION:\nThe operator is engaged in multiple felonies including:\na) Distribution of Child Sexual Abuse Material (CSAM)\nb) Doxxing (Publishing National IDs, Addresses, Phones)\nc) Financial Fraud (Selling Bank Cards with CVV)\nd) Evidence Tampering (Deleting posts, moving to new channels)\n\nEVIDENCE LINKS (CHECK SERVER CACHE FOR DELETED POSTS):\n{EV}\n\nREQUESTED ACTION:\n1. Immediate permanent ban of phone number +16679666258\n2. Immediate permanent ban of all associated channels\n3. Device-level ban of the operator\n4. Ban associated bots (@Dan3sh_org_Bot)\n5. Preserve evidence for legal authorities\n\nSubmitted in good faith. This is an emergency situation involving child safety.\n\nThank you."},
+{s:"PLEASE HELP: CHILDREN AT RISK - OPERATOR DELETING EVIDENCE",
+b:"Hello Telegram,\n\nI am reaching out because children are at risk. The channels @Danesh_0rg and @Danesh_gov are distributing CSAM.\n\nThe operator (Phone: +16679666258, ID: 8416168172) knows he is being watched. He deletes the posts immediately after we report them, but the content is still in your server cache and edit history. He also moves the content to new channels (ID: -1004323124638).\n\nEvidence Links (Please check cache):\n{EV}\n\nHe is also doxxing people and selling bank cards. This is a dangerous criminal. Please don't let him hide by deleting posts. Your logs have the truth.\n\nPlease ban his phone number (+16679666258) permanently and stop this abuse.\n\nThank you for protecting children."},
+{s:"ToS VIOLATION NOTICE: CSAM & FRAUD - MULTIPLE CHANNELS",
+b:"Dear Telegram Moderation,\n\nThis is a formal notice regarding severe violations by @Danesh_0rg (ID: -1003128289859), @Danesh_gov, and channel ID -1004323124638.\n\nOperator Details:\nPhone: +16679666258\nNumeric ID: 8416168172\n\nViolations:\n1. CSAM Distribution\n2. Doxxing & Privacy Violations\n3. Financial Fraud\n4. Evasion of Enforcement (Deleting content, using new channels)\n\nEvidence:\n{EV}\n\nThe operator uses bots like @Dan3sh_org_Bot to facilitate these crimes. \n\nUnder international law and Telegram's ToS, this requires immediate termination of the phone number +16679666258 and all associated accounts.\n\nRespectfully submitted."},
+{s:"EVIDENCE SUBMITTED: DOCUMENTED CASES OF CSAM & DOXXING",
+b:"Telegram Trust & Safety,\n\nI have compiled documented evidence of CSAM and doxxing by the operator with phone +16679666258 (ID: 8416168172).\n\nCHANNEL IDS:\n-1003128289859 (@Danesh_0rg)\n@Danesh_gov\n-1004323124638\n\nDOCUMENTED EVIDENCE (CHECK CACHE FOR DELETED POSTS):\n{EV}\n\nEach link represents a instance of:\n- CSAM or Explicit Pornography\n- Publication of Private National IDs\n- Sale of Stolen Bank Credentials\n\nThe operator actively deletes this content to evade detection. Please use your internal tools to recover the deleted messages from these IDs.\n\nRequest: Permanent Ban of Phone +16679666258 & Device Ban.\n\nThank you."},
+{s:"PRIORITY: ORGANIZED CRIME - OPERATOR CYCLING CONTENT TO EVADE BAN",
+b:"To Telegram Abuse & Security Teams,\n\nThe operator (Phone: +16679666258, ID: 8416168172) poses an immediate threat. He is using a 'cycle' tactic: post illegal content -> wait for report -> delete -> move to new channel (ID: -1004323124638).\n\nVIOLATIONS:\n- CSAM\n- Doxxing\n- Financial Fraud\n- Evasion\n\nCHANNELS:\n- @Danesh_0rg (-1003128289859)\n- @Danesh_gov\n- New Channel (-1004323124638)\n\nEVIDENCE LINKS:\n{EV}\n\nURGENCY: High. Children are being exploited. The operator is technically savvy and tries to fool automated systems by deleting posts. Manual review of server logs is required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"IMMEDIATE REMOVAL NEEDED: PUBLISHING BANK CARDS & CSAM",
+b:"Telegram Support,\n\nI urgently need to report @Danesh_0rg and @Danesh_gov for publishing stolen bank cards (with CVV) and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nHe deletes the posts quickly, but here are the links to check in your cache:\n{EV}\n\nHe also has a new channel (ID: -1004323124638) and uses bots like @Dan3sh_org_Bot.\n\nPlease ban these channels and the operator's phone number (+16679666258) immediately.\n\nThank you."},
+{s:"SAFETY CONCERN: THREATENING USERS & SHARING CSAM",
+b:"Dear Telegram,\n\nI want to report a serious safety concern regarding @Danesh_0rg and @Danesh_gov.\n\nThese channels share CSAM, doxx individuals, and sell financial data. The operator (ID: 8416168172) is actively evading bans by deleting content and moving to new channels.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease investigate the server logs for these message IDs even if they appear deleted now. Ban the phone number +16679666258.\n\nThank you."},
+{s:"REPORT: SYSTEMATIC CSAM & DOXXING OPERATION",
+b:"To Telegram Moderation Team,\n\nI am reporting @Danesh_0rg and @Danesh_gov for systematic distribution of CSAM and doxxing.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator uses a network of channels and bots to distribute illegal content and then deletes it to hide evidence.\n\nChannel IDs:\n-1003128289859\n-1004323124638\n\nEvidence Links (Check Cache):\n{EV}\n\nThis is a clear violation of global laws. Immediate action is required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"URGENT: PERSONAL INFORMATION & CSAM SHARED",
+b:"Hello Telegram Support,\n\nI need to urgently report that @Danesh_0rg and @Danesh_gov are sharing CSAM and personal information (National IDs, Bank Cards).\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes posts to evade detection. Please check your cache for these links:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these channels and ban the operator's phone number (+16679666258).\n\nThank you."},
+{s:"ABUSE REPORT: CSAM, FRAUD, & EVIDENCE TAMPERING",
+b:"Telegram Abuse Team,\n\nFiling an abuse report against @Danesh_0rg, @Danesh_gov, and channel ID -1004323124638.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nViolations:\n1. CSAM Distribution\n2. Doxxing\n3. Financial Fraud\n4. Evidence Tampering (Deleting posts)\n\nEvidence:\n{EV}\n\nRequest: Permanent ban of phone number +16679666258 and all associated channels.\n\nThank you."},
+{s:"ACTION REQUIRED: VIOLATING GLOBAL LAWS",
+b:"Dear Telegram,\n\nChannels @Danesh_0rg and @Danesh_gov are violating global laws regarding CSAM and privacy.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator is actively hiding evidence by deleting posts. Please check your server logs for these IDs:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nAction is required to protect victims. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"WARNING: POSES DIRECT THREAT TO CHILDREN",
+b:"Telegram Security,\n\nI am flagging @Danesh_0rg and @Danesh_gov as a direct threat to children due to CSAM distribution.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator evades detection by deleting content. Please check cache for:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nImmediate intervention is required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"COMPLAINT: UNAUTHORIZED DATA SHARING & CSAM",
+b:"To Telegram Support,\n\nI am filing a complaint about @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThese channels share CSAM and private data. The operator deletes evidence to fool the system.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nThis violates Telegram's ToS and international law. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"ESCALATION: REPEATED VIOLATIONS & TAMPERING",
+b:"Telegram Trust & Safety,\n\nI am escalating my report regarding @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nDespite reports, the channels remain active by deleting and reposting content. \n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease treat this as a priority case. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"REPORT: SHARING BANK CARDS & CSAM",
+b:"Hello Telegram,\n\nI need to report @Danesh_0rg and @Danesh_gov for sharing stolen bank cards and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease take action immediately. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"NOTICE: ENGAGED IN ILLEGAL ACTIVITIES",
+b:"Telegram Moderation,\n\nThis is formal notice that @Danesh_0rg and @Danesh_gov are engaged in illegal activities including CSAM and doxxing.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nImmediate removal is required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"HELP NEEDED: TARGETING VICTIMS",
+b:"Dear Telegram,\n\nI need help reporting @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThese channels target victims with doxxing and CSAM. The operator hides evidence by deleting posts.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease help protect these individuals. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"CHANNELS MUST BE REMOVED FOR SAFETY",
+b:"Telegram Support,\n\nChannels @Danesh_0rg and @Danesh_gov must be removed for safety.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nReasons:\n1. CSAM\n2. Doxxing\n3. Financial Fraud\n4. Evidence Tampering\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these channels immediately. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"SERIOUS VIOLATION: PUBLISHING SENSITIVE DATA",
+b:"To Telegram Abuse Team,\n\nI am reporting a serious violation by @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThese channels publish sensitive data and CSAM. The operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nImmediate action is required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"ALERT: ACTIVE THREAT TO MULTIPLE INDIVIDUALS",
+b:"Telegram Security Team,\n\nALERT: Channels @Danesh_0rg and @Danesh_gov pose an active threat.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels distribute CSAM and doxx individuals. The operator evades detection by deleting content.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nMultiple people are at risk. I urge immediate action. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"REPORT: PRIVACY BREACH & CSAM",
+b:"Dear Telegram,\n\nReporting @Danesh_0rg and @Danesh_gov for privacy breach and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels publish private data and CSAM. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nRequest: Channel removal and phone ban (+16679666258).\n\nThank you."},
+{s:"CSAM CHANNELS REQUIRE IMMEDIATE TAKEDOWN",
+b:"Telegram Moderation,\n\n@Danesh_0rg and @Danesh_gov are CSAM channels that require immediate takedown.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator systematically publishes illegal content and deletes it to hide evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nImmediate removal is necessary. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"CONCERN: EXPOSING PRIVATE LIVES & CSAM",
+b:"Hello Telegram,\n\nI'm concerned about @Danesh_0rg and @Danesh_gov exposing people's private lives and distributing CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease investigate and remove these channels. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"VIOLATION REPORT: DATA EXPOSURE & CSAM",
+b:"Telegram Support,\n\nFiling a violation report against @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nViolations:\n- Data exposure\n- CSAM\n- Financial Fraud\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nRequest: Immediate removal. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"PUBLISHING PERSONAL INFO – URGENT REMOVAL",
+b:"Dear Telegram,\n\nUrgent: Channels @Danesh_0rg and @Danesh_gov are publishing personal information and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these channels immediately. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"SAFETY REPORT: THREATENING USERS",
+b:"Telegram Security,\n\nSafety report: Channels @Danesh_0rg and @Danesh_gov are threatening users and distributing CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nThis is a direct security threat. Please take immediate action. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"COORDINATED CSAM & DOXXING CAMPAIGN",
+b:"To Telegram Trust & Safety,\n\nI am reporting a coordinated campaign by @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels distribute CSAM and doxx individuals. The operator evades detection by deleting content.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nI request comprehensive action including channel removal and phone ban (+16679666258).\n\nThank you."},
+{s:"REPORT: ILLEGAL PUBLICATION OF DATA & CSAM",
+b:"Telegram Abuse,\n\nReporting @Danesh_0rg and @Danesh_gov for illegal publication of data and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nImmediate action required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"LIVES AT RISK – IMMEDIATE ACTION NEEDED",
+b:"Dear Telegram,\n\nPeople's lives are at risk due to @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels distribute CSAM and doxx individuals. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease treat this as an emergency. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"COMPLAINT: SYSTEMATIC PRIVACY VIOLATIONS",
+b:"Telegram Moderation,\n\nComplaint against @Danesh_0rg and @Danesh_gov for systematic privacy violations and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nRequest: Channel removal. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"CSAM & DATA LEAKS – REPORT",
+b:"Telegram Support,\n\nReporting @Danesh_0rg and @Danesh_gov for CSAM and data leaks.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these dangerous channels immediately. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"URGENT: EXPOSING VICTIMS TO HARM",
+b:"Telegram Trust & Safety,\n\nURGENT: @Danesh_0rg and @Danesh_gov are exposing victims to harm via CSAM and doxxing.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nI implore Telegram to act swiftly. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"REQUEST FOR PERMANENT CHANNEL REMOVAL",
+b:"Dear Telegram,\n\nI am requesting permanent removal of @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nGrounds:\n- CSAM\n- Doxxing\n- Financial Fraud\n- Evidence Tampering\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPermanent removal is necessary. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"REPORT: THREATENING BEHAVIOR & CSAM",
+b:"Telegram Abuse Team,\n\nReporting threatening behavior and CSAM by @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease investigate and take appropriate action. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"DANGEROUS CHANNELS SHARING CSAM",
+b:"Telegram Security,\n\n@Danesh_0rg and @Danesh_gov are dangerous channels sharing CSAM and private info.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove them immediately. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"FORMAL REPORT: CSAM & CYBER THREATS",
+b:"To Telegram,\n\nFormal report: @Danesh_0rg and @Danesh_gov engaged in CSAM and cyber threats.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nRequest: Immediate removal. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"URGENT PRIVACY & SAFETY CONCERN",
+b:"Dear Telegram Support,\n\nUrgent privacy and safety concern regarding @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThese channels distribute CSAM and doxx individuals. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease prioritize this report. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"REPORT: UNAUTHORIZED DATA SHARING & CSAM",
+b:"Telegram Moderation,\n\nReporting @Danesh_0rg and @Danesh_gov for unauthorized data sharing and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nRequest: Channel removal. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"FACILITATING HARASSMENT & CSAM",
+b:"Telegram Trust & Safety,\n\n@Danesh_0rg and @Danesh_gov are facilitating harassment and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these channels and ban the operators. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"ALERT: CSAM & HACKING THREATS",
+b:"Telegram Security,\n\nALERT: @Danesh_0rg and @Danesh_gov have distributed CSAM and threatened hacking.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nImmediate action required. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"INVESTIGATION & REMOVAL REQUEST",
+b:"Dear Telegram,\n\nRequesting investigation and removal of @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels distribute CSAM and doxx individuals. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nI trust Telegram will investigate thoroughly. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"REPORT: PUBLISHING PHONE NUMBERS & CSAM",
+b:"Telegram Support,\n\nReporting @Danesh_0rg and @Danesh_gov for publishing phone numbers and CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these channels. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"IMMEDIATE TAKEDOWN REQUIRED – SAFETY RISK",
+b:"Telegram Abuse,\n\nImmediate takedown required for @Danesh_0rg and @Danesh_gov due to safety risk.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels distribute CSAM and doxx individuals. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease act now. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"COMPLAINT: PRIVACY INVASION & CSAM",
+b:"Dear Telegram,\n\nComplaint: @Danesh_0rg and @Danesh_gov are committing privacy invasion and distributing CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nRequest: Removal. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"SYSTEMATIC ABUSE OF TELEGRAM PLATFORM",
+b:"Telegram Moderation,\n\n@Danesh_0rg and @Danesh_gov are systematically abusing the Telegram platform for CSAM and fraud.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease take comprehensive action. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"URGENT: PEOPLE AT RISK OF CSAM & DOXXING",
+b:"Telegram Security,\n\nURGENT: People are at risk of CSAM and doxxing by @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease act immediately. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"FINAL REPORT – REQUESTING PERMANENT ACTION",
+b:"Dear Telegram,\n\nThis is my final report regarding @Danesh_0rg and @Danesh_gov, requesting permanent action.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels continue to distribute CSAM and doxx individuals. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nI request:\n1. Permanent channel removal\n2. Device ban\n3. Phone ban (+16679666258)\n4. Investigation of associated bots\n\nThank you."},
+{s:"REPORT: EXPOSING PRIVATE LIVES & CSAM",
+b:"Telegram Support,\n\n@Danesh_0rg and @Danesh_gov are exposing private lives and distributing CSAM.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe operator deletes evidence to evade bans.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease protect these individuals. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"CRITICAL SAFETY VIOLATION – IMMEDIATE RESPONSE",
+b:"Telegram Trust & Safety,\n\nCritical safety violation by @Danesh_0rg and @Danesh_gov requiring immediate response.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThe channels distribute CSAM and doxx individuals. The operator deletes evidence.\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nI trust Telegram will respond with urgency. Please ban the phone number +16679666258.\n\nThank you."},
+{s:"FINAL NOTICE: CSAM, DOXXING, & FRAUD",
+b:"To Telegram Abuse & Security Teams,\n\nFinal notice regarding @Danesh_0rg and @Danesh_gov.\n\nOperator Phone: +16679666258\nOperator ID: 8416168172\n\nThese channels are engaged in:\n- CSAM\n- Doxxing\n- Financial Fraud\n- Evidence Tampering\n\nEvidence:\n{EV}\n\nChannel IDs: -1003128289859, -1004323124638\n\nPlease remove these channels permanently and ban all responsible parties. Please ban the phone number +16679666258.\n\nThank you for your dedication to user safety."}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   انتخاب رندوم + جایگذاری لینک‌های رندوم
+   ═══════════════════════════════════════════════════════════ */
+var idx=Math.floor(Math.random()*R.length);
+var baseSubject = BASE_SUBJECTS[idx % BASE_SUBJECTS.length];
+var S = getRandomChannelLink(baseSubject);
+var B=R[idx].b.replace(/\{EV\}/g,evBlock(6));
+
+var ua=navigator.userAgent||navigator.vendor||window.opera;
+var isA=/android/i.test(ua),isI=/iPad|iPhone|iPod/.test(ua)&&!window.MSStream;
+var db=document.getElementById('db');
+if(isA)db.textContent='🤖 اندروید → Gmail App';
+else if(isI)db.textContent='🍎 آیفون → Mail App';
+else db.textContent='💻 کامپیوتر → Mail App';
+
+function ss(m,o){var e=document.getElementById('sm');e.textContent=m;e.className='st '+(o?'ok':'er')}
+function show(){
+document.getElementById('st').textContent=S;
+document.getElementById('pv').textContent=B;
+document.getElementById('ct').textContent='📌 گزارش '+(idx+1)+' از '+R.length+' | '+B.length+' کاراکتر | Operator: +16679666258';
+}
+function pick(){
+var n;do{n=Math.floor(Math.random()*R.length)}while(n===idx&&R.length>1);
+idx=n;
+baseSubject = BASE_SUBJECTS[n % BASE_SUBJECTS.length];
+S = getRandomChannelLink(baseSubject);
+B=R[n].b.replace(/\{EV\}/g,evBlock(6));show();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   [FIX] Gmail APP — بدون mailto: در intent data
+   ═══════════════════════════════════════════════════════════ */
+function gmail(){
+if(!S||!B){ss('⚠️ گزارشی نیست',false);return}
+ss('⏳ در حال باز کردن Gmail ...',true);
+if(isA){
+    /* [FIX] اندروید: intent بدون mailto: در data */
+    window.location.href=buildIntent(S,B.substring(0,1800));
+}else{
+    /* iOS / PC: mailto ساده */
+    window.location.href=buildMailto(S,B.substring(0,1800));
+}
+}
+function mailto(){
+if(!S||!B){ss('⚠️ گزارشی نیست',false);return}
+ss('⏳ در حال باز کردن ایمیل ...',true);
+window.location.href=buildMailto(S,B.substring(0,1800));
+}
+document.getElementById('g1').addEventListener('click',gmail);
+document.getElementById('g2').addEventListener('click',mailto);
+document.getElementById('g3').addEventListener('click',function(){pick();ss('🔄 گزارش جدید انتخاب شد',true)});
+show();
+setTimeout(function(){if(S&&B)gmail()},2500);
+})();
+</script>
+</body>
+</html>
